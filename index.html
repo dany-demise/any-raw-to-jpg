@@ -22,7 +22,7 @@
     var intervalId;
 
     // Create the worker with type="module" to allow ES6 imports inside the worker
-    const worker = new Worker('./wasm-worker.js', { type: 'module' });
+    const worker = new Worker('./static/wasm-worker.js', { type: 'module' });
 
     // Listen for messages coming back from the worker
     worker.onmessage = (event) => {
@@ -32,8 +32,6 @@
         // buffer is a transferred ArrayBuffer containing the processed image data
         const processedImageData = new Uint16Array(buffer);
 
-        console.log(`Got processed image from worker: ${width}x${height}, colors=${colors}, size=${imageSize} bytes`);
-        console.log(processedImageData);
         // Display or manipulate the returned image
         displayImage(processedImageData, width, height);
         stopLoading();
@@ -75,7 +73,7 @@
         } else {
           tourniquetThree++;
         }
-        outputDiv.innerHTML = "Loading" + ".".repeat(tourniquetThree);
+        outputDiv.innerHTML = '<h4 style="font-weight:bold;">Loading' + '.'.repeat(tourniquetThree) + '</h4>';
       }, 330);
     }
 

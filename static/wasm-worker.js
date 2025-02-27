@@ -1,5 +1,5 @@
 // wasmWorker.js
-import createLibRawModule from './out/libraw.js';
+import createLibRawModule from './libraw.js';
 
 let Module = null;
 
