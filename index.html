@@ -41,7 +41,8 @@
         // outputDiv.textContent = `Processed Image: ${width} x ${height}, Colors=${colors}, Size=${imageSize} bytes`;
       }
       else if (type === 'error') {
-        outputDiv.textContent = `Error in Worker: ${event.data.message}`;
+        stopLoading();
+        outputDiv.innerHTML = '<p style="color:red;">Unable to read image</p>';
       }
     };
 
@@ -58,7 +59,7 @@
             [arrayBuffer] // Transfer ownership to worker
           );
         } catch (err) {
-          outputDiv.textContent = `Error reading file: ${err}`;
+          outputDiv.innerHTML = '<p style="color:red;">Unable to read image</p>';
         }
       }
     });
@@ -67,14 +68,15 @@
 
     function startLoading() {
       // Save the interval ID returned by setInterval
+      tourniquetThree = 0;
       intervalId = setInterval(() => {
-        if (tourniquetThree == 3) {
+        if (tourniquetThree == 7) {
           tourniquetThree = 0;
         } else {
           tourniquetThree++;
         }
         outputDiv.innerHTML = '<h4 style="font-weight:bold;">Loading' + '.'.repeat(tourniquetThree) + '</h4>';
-      }, 330);
+      }, 278);
     }
 
     function stopLoading() {
