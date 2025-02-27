@@ -59,6 +59,7 @@
             [arrayBuffer] // Transfer ownership to worker
           );
         } catch (err) {
+          stopLoading();
           outputDiv.innerHTML = '<p style="color:red;">Unable to read image</p>';
         }
       }
@@ -116,7 +117,7 @@
       const canvas = document.querySelector('canvas');
       if (!canvas) return;
       const link = document.createElement('a');
-      link.download = 'canvas_image.png';
+      link.download = 'canvas_image.jpg';
       link.href = canvas.toDataURL('image/jpeg');
       link.click();
     }
