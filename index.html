@@ -47,7 +47,6 @@
     <br>
     <button disabled id="downloadButton" style="margin-bottom: 10px;" >Download as JPG</button>
     <br>
-    <a href="https://x.com/toni_forty_two" target="_blank">Need custom settings and bulk processing ? :)</a>
   </div>
   <div id="output"></div>
 
@@ -89,7 +88,6 @@
         try {
           const arrayBuffer = await file.arrayBuffer();
 
-          // Send the file's ArrayBuffer to the Worker as a Transferable
           worker.postMessage(
             { type: 'process', fileBuffer: arrayBuffer },
             [arrayBuffer] // Transfer ownership to worker
@@ -104,7 +102,6 @@
     let tourniquetThree = 0;
 
     function startLoading() {
-      // Save the interval ID returned by setInterval
       tourniquetThree = 0;
       intervalId = setInterval(() => {
         if (tourniquetThree == 7) {
@@ -120,9 +117,7 @@
       clearInterval(intervalId);
     }
 
-    // Displays the Uint16Array data onto a Canvas
     function displayImage(processedImageArray, width, height) {
-      // Clear any previous output
       outputDiv.innerHTML = '';
 
       const canvas = document.createElement('canvas');
@@ -133,22 +128,16 @@
 
       const ctx = canvas.getContext('2d');
       const imageData = ctx.createImageData(width, height);
-
-      // IMPORTANT: If your processed data is 16-bit per channel,
-      // you need an appropriate scaling. For example, if the max
-      // value is 65535, you might do processed[i] / 257.
-      // This code simply does (value / 255) for demonstration.
       for (let i = 0, j = 0; i < processedImageArray.length; i += 3, j += 4) {
-        imageData.data[j] = processedImageArray[i] / 255;     // R
-        imageData.data[j + 1] = processedImageArray[i + 1] / 255; // G
-        imageData.data[j + 2] = processedImageArray[i + 2] / 255; // B
+        imageData.data[j] = processedImageArray[i] / 256;     // R
+        imageData.data[j + 1] = processedImageArray[i + 1] / 256; // G
+        imageData.data[j + 2] = processedImageArray[i + 2] / 256; // B
         imageData.data[j + 3] = 255;                              // A
       }
 
       ctx.putImageData(imageData, 0, 0);
     }
 
-    // Simple function to download the current canvas as PNG
     function downloadCanvasAsImage() {
       const canvas = document.querySelector('canvas');
       if (!canvas) return;
